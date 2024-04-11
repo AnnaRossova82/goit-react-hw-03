@@ -1,47 +1,45 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { v4 as uuidv4 } from 'uuid';
+import * as Yup from 'yup';
 import css from "./ContactForm.module.css"
 
-
-
-export default function ContactForm({ addContact }) {
+const ContactForm = ({ addContact }) => {
   const initialValues = {
     name: '',
     number: ''
   };
 
   const onSubmit = (values, actions) => {
-    addContact(values);
+    const newContact = {
+      id: uuidv4(),
+      name: values.name,
+      number: values.number
+    };
+    addContact(newContact);
     actions.resetForm();
   };
 
-  const validate = values => {
-    const errors = {};
-    if (!values.name) {
-      errors.name = 'Required';
-    }
-    if (!values.number) {
-      errors.number = 'Required';
-    }
-    return errors;
-  };
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required('Name is required').min(3, 'Name must be at least 3 characters').max(50, 'Name must not exceed 50 characters'),
+    number: Yup.string().required('Number is required').min(3, 'Number must be at least 3 characters').max(50, 'Number must not exceed 50 characters')
+  });
 
   return (
     <div className={css.formContainer}>
-    
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
-        validate={validate}
+        validationSchema={validationSchema}
       >
         <Form>
           <div className={css.input}>
-            <label   htmlFor="name">Name</label>
-            <Field type="text" id="name" name="name" />
-            <ErrorMessage name="name" component="div" className={css.err}/>
+            <label htmlFor="name">Name</label>
+            <Field type="text" id={uuidv4()} name="name" />
+            <ErrorMessage name="name" component="div" className={css.err} />
           </div>
           <div className={css.input}>
-            <label  htmlFor="number">Number</label>
-            <Field type="text" id="number" name="number" />
+            <label htmlFor="number">Number</label>
+            <Field type="text" id={uuidv4()} name="number" />
             <ErrorMessage name="number" component="div" className={css.err} />
           </div>
           <button className={css.button} type="submit">Add Contact</button>
@@ -51,3 +49,4 @@ export default function ContactForm({ addContact }) {
   );
 }
 
+export default ContactForm;
