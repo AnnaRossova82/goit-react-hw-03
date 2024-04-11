@@ -1,3 +1,8 @@
+import css from "./ContactList.module.css"
+import { HiOutlinePhoneIncoming } from "react-icons/hi";
+import { HiUserAdd } from "react-icons/hi";
+
+
 
 
 const ContactList = ({ contacts, onDeleteContact }) => {
@@ -6,12 +11,15 @@ const ContactList = ({ contacts, onDeleteContact }) => {
   };
 
   return (
-    <div>
+    <div className={css.container}>
       {contacts.map((contact) => (
-        <div key={contact.id}>
-          <p>Name: {contact.name}</p>
-          <p>Number: {contact.number}</p>
-          <button onClick={() => handleDelete(contact.id)}>Delete</button>
+        <div className={css.card} key={contact.id}>
+          <span>
+          <p>    <HiUserAdd />    Name: {contact.name}</p>
+          <p> <HiOutlinePhoneIncoming />     Number: {contact.number}</p>
+          </span>
+         
+          <button className={css.buttonDel} onClick={() => handleDelete(contact.id)}>Delete</button>
         </div>
       ))}
     </div>

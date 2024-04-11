@@ -2,6 +2,10 @@ import { useState } from 'react';
 import ContactForm from './ContactForm/ContactForm';
 import ContactList from './ContactList/ContactList';
 import initialContacts from '../contacts.json';
+import '../index.css';
+
+
+
 
 function App() {
   const [contacts, setContacts] = useState(initialContacts);
@@ -24,7 +28,7 @@ function App() {
   );
 
   return (
-    <div>
+    <div >
       <h1>Phonebook</h1>
       <ContactForm addContact={addContact} />
       <input

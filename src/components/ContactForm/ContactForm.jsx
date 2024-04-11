@@ -1,4 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import css from "./ContactForm.module.css"
+
 
 
 export default function ContactForm({ addContact }) {
@@ -24,25 +26,25 @@ export default function ContactForm({ addContact }) {
   };
 
   return (
-    <div>
-      <h2>Add New Contact</h2>
+    <div className={css.formContainer}>
+    
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
         validate={validate}
       >
         <Form>
-          <div>
-            <label htmlFor="name">Name</label>
+          <div className={css.input}>
+            <label   htmlFor="name">Name</label>
             <Field type="text" id="name" name="name" />
-            <ErrorMessage name="name" component="div" />
+            <ErrorMessage name="name" component="div" className={css.err}/>
           </div>
-          <div>
-            <label htmlFor="number">Number</label>
+          <div className={css.input}>
+            <label  htmlFor="number">Number</label>
             <Field type="text" id="number" name="number" />
-            <ErrorMessage name="number" component="div" />
+            <ErrorMessage name="number" component="div" className={css.err} />
           </div>
-          <button type="submit">Add Contact</button>
+          <button className={css.button} type="submit">Add Contact</button>
         </Form>
       </Formik>
     </div>
