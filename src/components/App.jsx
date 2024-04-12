@@ -1,32 +1,34 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect} from 'react';
 import ContactForm from './ContactForm/ContactForm';
 import ContactList from './ContactList/ContactList';
 import SearchBox from './SearchBox/SearchBox'; 
+
 import initialContacts from '../contacts.json';
 import '../index.css';
 
-
 function App() {
-  const [contacts, setContacts] = useState(() => {
-    const savedContacts = localStorage.getItem('contacts');
-    return savedContacts ? JSON.parse(savedContacts) : initialContacts;
-  });
-  
-  const [searchTerm, setSearchTerm] = useState('');
 
- 
-  const addContact = newContact => {
+  const [searchTerm, setSearchTerm] = useState('');   
+
+  const savedContacts = JSON.parse(localStorage.getItem('contacts'));
+  const [contacts, setContacts] = useState(()=>{
+    return savedContacts ? savedContacts : initialContacts;
+   });
+  
+
+  
+  const addContact = (newContact) => {
     setContacts(prevContacts => {
       const updatedContacts = [...prevContacts, newContact];
-      localStorage.setItem('contacts', JSON.stringify(updatedContacts));
-      return updatedContacts;
-    });
+    window.localStorage.setItem('contacts', JSON.stringify(updatedContacts));
+    return updatedContacts;
+  });
   };
 
   const onDeleteContact = id => {
     setContacts(prevContacts => {
       const updatedContacts = prevContacts.filter(contact => contact.id !== id);
-      localStorage.setItem('contacts', JSON.stringify(updatedContacts));
+      window.localStorage.setItem('contacts', JSON.stringify(updatedContacts));
       return updatedContacts;
     });
   };
@@ -43,8 +45,9 @@ function App() {
     localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
+
   return (
-    <div>
+    <div >
       <h1>Phonebook</h1>
       <ContactForm addContact={addContact} />
       <SearchBox searchTerm={searchTerm} onSearchChange={handleSearchChange} />
@@ -54,3 +57,4 @@ function App() {
 }
 
 export default App;
+
